@@ -1,0 +1,39 @@
+@SimpleMarket_HostAddress = http://localhost:5182
+
+# get products
+GET {{SimpleMarket_HostAddress}}/api/Market/products
+Accept: application/json
+###
+
+# post product
+POST {{SimpleMarket_HostAddress}}/api/Market/products
+Content-Type: application/json
+
+{
+  "name": "apple",
+  "price": 12
+}
+###
+# delete product
+DELETE {{SimpleMarket_HostAddress}}/api/Market/products/1
+
+#####
+
+
+
+# get order
+GET {{SimpleMarket_HostAddress}}/api/Market/orders
+Accept: application/json
+###
+
+# post order
+POST {{SimpleMarket_HostAddress}}/api/Market/orders
+Content-Type: application/json
+
+[
+  2
+]
+
+###
+# delete order
+DELETE {{SimpleMarket_HostAddress}}/api/Market/orders/1
