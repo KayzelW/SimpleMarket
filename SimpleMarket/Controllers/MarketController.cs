@@ -19,91 +19,14 @@ namespace SimpleMarket.Controllers;
  */
 
 [ApiController, Route("api/[controller]")]
-public class MarketController : Controller
+public partial class MarketController : Controller
 {
-    private static List<Product> _products = [];
-    private static List<Order> _orders = [];
-    private static int _productIdCounter = 1;
-    private static int _orderIdCounter = 1;
+    private ILogger<MarketController> _logger;
+    private AppDbContext _dbContext;
 
-    #region Products
-
-    // GET: api/products
-    [HttpGet("products")]
-    public IActionResult GetProducts()
+    public MarketController(ILogger<MarketController> logger, AppDbContext dbContext)
     {
-        return Ok(_products);
+        _logger = logger;
+        _dbContext = dbContext;
     }
-
-    // POST: api/products
-    [HttpPost("products")]
-    public IActionResult AddProduct([FromBody] Product product)
-    {
-        product.Id = _productIdCounter++;
-        _products.Add(product);
-        return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product);
-    }
-
-    // DELETE: api/products/{id}
-    [HttpDelete("products/{id:int}")]
-    public IActionResult DeleteProduct(int id)
-    {
-        var product = _products.FirstOrDefault(p => p.Id == id);
-        if (product == null)
-        {
-            return NotFound();
-        }
-
-        _products.Remove(product);
-        return NoContent();
-    }
-
-    #endregion
-
-
-    #region Orders
-
-    // GET: api/orders
-    [HttpGet("orders")]
-    public IActionResult GetOrders()
-    {
-        return Ok(_orders);
-    }
-
-    // POST: api/orders
-    [HttpPost("orders")]
-    public IActionResult CreateOrder([FromBody] List<int> productIds)
-    {
-        var products = _products.Where(p => productIds.Contains(p.Id)).ToList();
-        if (products.Count != productIds.Count)
-        {
-            return BadRequest("One or more products are not found.");
-        }
-
-        var order = new Order
-        {
-            Id = _orderIdCounter++,
-            Products = products,
-            OrderDate = DateTime.UtcNow
-        };
-        _orders.Add(order);
-
-        return CreatedAtAction(nameof(GetOrders), new { id = order.Id }, order);
-    }
-
-    // DELETE: api/orders/{id}
-    [HttpDelete("orders/{id:int}")]
-    public IActionResult DeleteOrder(int id)
-    {
-        var order = _orders.FirstOrDefault(o => o.Id == id);
-        if (order == null)
-        {
-            return NotFound();
-        }
-
-        _orders.Remove(order);
-        return NoContent();
-    }
-
-    #endregion
 }

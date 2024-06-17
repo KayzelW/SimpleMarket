@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SimpleMarket.MarketClasses.Models;
 
 namespace SimpleMarket.MarketClasses;
 
-public class Order
+public class ProductOrder
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    public List<ProductOrder> Products { get; set; } = [];
-    public DateTime OrderDate { get; set; } = DateTime.Now;
-
-
+    public int ProductId { get; set; }
+    public Product? Product { get; set; }
+    public int OrderId { get; set; }
+    public Order Order { get; set; }
+    public int Count { get; set; }
 }
