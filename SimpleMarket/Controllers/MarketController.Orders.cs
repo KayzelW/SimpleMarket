@@ -7,8 +7,15 @@ namespace SimpleMarket.Controllers;
 
 public partial class MarketController
 {
+    // GET: api/order
+    [HttpGet("orders/{id:int}")]
+    public IActionResult GetOrder(int? id)
+    {
+        return Ok(_dbContext.Orders.Include(x => x.Products).FirstOrDefault(x => x.Id == id));
+    }
+
     // GET: api/orders
-    [HttpGet("orders/{count:int?}")]
+    [HttpGet("orders/all/{count:int?}")]
     public IActionResult GetOrders(int? count)
     {
         return Ok(_dbContext.Orders.Include(x => x.Products).Take(count ?? 20));

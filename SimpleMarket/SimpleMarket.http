@@ -32,6 +32,11 @@ GET {{SimpleMarket_HostAddress}}/api/Market/orders
 Accept: application/json
 ###
 
+# get orders
+GET {{SimpleMarket_HostAddress}}/api/Market/orders/all/20
+Accept: application/json
+###
+
 # post order
 POST {{SimpleMarket_HostAddress}}/api/Market/orders
 Content-Type: application/json
